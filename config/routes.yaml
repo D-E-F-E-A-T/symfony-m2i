@@ -2,5 +2,5 @@
 #    path: /
 #    controller: App\Controller\DefaultController::index
 #home_index:
-#  path: /home
+# path: /home
 #  controller: App\Controller\HomeController::index

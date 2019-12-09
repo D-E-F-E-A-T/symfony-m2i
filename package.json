@@ -1,0 +1,11 @@
+{
+  "name": "first-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Anas-Emmanuel FAOUR <anas-emmanuel.faour@orange.fr>",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1"
+  }
+}

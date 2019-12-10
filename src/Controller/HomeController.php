@@ -21,7 +21,7 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return new Response("Hello symfony");
+        return $this->render("home/index.html.twig", ["message" => "Hello Symfony"]);
     }
 
     /**

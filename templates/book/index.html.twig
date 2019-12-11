@@ -3,38 +3,54 @@
 {% block title %}Hello BookController!{% endblock %}
 
 {% block content %}
+    <h1 class="mt-3">Liste des livres</h1>
+    <div class="row mb-2 mt-2">
+        <div class="col text-right">
+            <a href="{{ path('book_create') }}" class="btn btn-danger">
+                Nouveau Livre
+            </a>
+        </div>
+    </div>
 
 
-            <table class="table table-bordered table-danger table-striped text-center">
+    <table class="table table-bordered table-danger table-striped text-center">
 
-                    <thead>
-                    <tr>
-                        <th scope="col">Code</th>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Auteur</th>
-                        <th scope="col">Prix</th>
-                        <th scope="col">action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for book in bookList %}
-                    <tr>
-                        <th scope="row">{{ book.id }}</th>
-                        <td>
-                            {{ book.title }}
-                        </td>
-                        <td>
-                            {{ book.author }}
-                        </td>
-                        <td>
-                            {{ book.price }}
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-danger" href="{{ path('book-delete', {'id':book.id}) }}">Supprimer</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                {% endfor %}
-            </table>
+        <thead>
+        <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Auteur</th>
+            <th scope="col">Editeur</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Actions</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in bookList %}
+        <tr>
+            <th scope="row">{{ book.id }}</th>
+            <td>
+                {{ book.title }}
+            </td>
+            <td>
+                {{ book.author }}
+            </td>
+            <td>
+                {{ book.publisher.name }}
+            </td>
+            <td>
+                {{ book.price }}
+            </td>
+            <td>
+                <a type="button" class="btn btn-danger" href="{{ path('book-edit', {'id':book.id}) }}">Mettre à jour</a>
+            </td>
+            <td>
+                <a type="button" class="btn btn-danger" href="{{ path('book-delete', {'id':book.id}) }}">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 
 {% endblock %}

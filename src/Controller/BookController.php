@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Book;
+use App\Entity\Publisher;
+use App\Form\BookType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends AbstractController
@@ -23,19 +26,36 @@ class BookController extends AbstractController
     }
 
     /**
-     * @Route("/book/new")
+     * @Route("/book/new", name="book_create")
+     * @Route("/book/edit/{id}", name="book-edit")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function createBook()
+    public function createOrEditBook(Request $request, $id=null)
     {
-        $book = new Book();
-        $book->setAuthor("Platon")
-            ->setTitle("La République")
-            ->setPrice(5);
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($book);
-        $entityManager->flush();
+        if ($id == null) {
+            $book = new Book();
+            //$book->setPublisher(new Publisher());
+        } else {
+            $book = $this->getDoctrine()
+                ->getRepository(Book::class)
+                ->find($id);
+        }
+
+        $form = $this->createForm(BookType::class, $book);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($book);
+            $em->flush();
+
+            return $this->redirectToRoute("book-list");
+        }
+
         return $this->render("book/new.html.twig", [
-            "book" => $book
+            "bookForm" => $form->createView()
         ]);
     }
 

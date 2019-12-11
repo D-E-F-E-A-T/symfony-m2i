@@ -31,6 +31,14 @@ class Book
      */
     private $price;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Publisher", inversedBy="books")
+     * @var Publisher
+     */
+    private  $publisher;
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,4 +79,23 @@ class Book
 
         return $this;
     }
+
+    /**
+     * @return Publisher
+     */
+    public function getPublisher(): ?Publisher
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * @param Publisher $publisher
+     * @return Book
+     */
+    public function setPublisher(Publisher $publisher): Book
+    {
+        $this->publisher = $publisher;
+        return $this;
+    }
+
 }

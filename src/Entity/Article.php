@@ -36,6 +36,7 @@ class Article
 
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      * @var ArrayCollection
      */
 

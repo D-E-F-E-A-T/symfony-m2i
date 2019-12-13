@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+Use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -17,6 +18,8 @@ class Comment
     private $id;
 
     /**
+     * @Assert\NotBlank(message="L'auteur ne peut être vide")
+     * @Assert\Email(message="Vous devez saisir un email pour l'auteur")
      * @ORM\Column(type="string", length=120)
      */
     private $email;
@@ -27,6 +30,8 @@ class Comment
     private $createdAt;
 
     /**
+     * @Assert\Length(max="500", min="20", minMessage="Votre message doit comporter au moins {{ limit }} caractères",
+     *     maxMessage="Votre message doit comporter plus de {{ limit }} caractères")
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $text;

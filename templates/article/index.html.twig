@@ -1,0 +1,39 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block content %}
+    <h1 class="mt-2 text-center">Liste des article</h1>
+
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Author</th>
+                <th>Commentaires</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>
+                    <a href="{{ path('article-details', {'id': article.id})}}">
+                        {{ article.title }}
+                    </a>
+
+
+                <td>{{ article.author.fullName }}</td>
+                <td>{{ article.comments | length }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-danger" href="{{ path('article_new') }}">Create new</a>
+{% endblock %}

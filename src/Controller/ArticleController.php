@@ -8,6 +8,7 @@ use App\Form\ArticleType;
 use App\Form\CommentType;
 use App\Repository\ArtcileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,8 @@ class ArticleController extends AbstractController
 {
     /**
      * @Route("/", name="article_index", methods={"GET"})
+     * @param ArtcileRepository $artcileRepository
+     * @return Response
      */
     public function index(ArtcileRepository $artcileRepository): Response
     {
@@ -28,30 +31,30 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="article_new", methods={"GET","POST"})
+     * @Route("/new", name="article-new")
+     * @param Request $request
+     * @param null $id
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function addOrEdit(Request $request, $id=null)
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($article);
-            $entityManager->flush();
 
-            return $this->redirectToRoute('article_index');
-        }
 
         return $this->render('article/new.html.twig', [
-            'article' => $article,
-            'form' => $form->createView(),
+            //'article' => $article,
+            'articleForm' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="article-details")
+     * @Route("/{id}", name="article-details", requirements={"id"="\d+"})
+     * @param Article $article
+     * @param Request $request
+     * @return RedirectResponse|Response
+     * @throws \Exception
      */
 
     public function details(Article $article, Request $request){
@@ -79,6 +82,9 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Article $article
+     * @return Response
      */
     public function edit(Request $request, Article $article): Response
     {

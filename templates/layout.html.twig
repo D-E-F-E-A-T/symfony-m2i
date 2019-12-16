@@ -6,31 +6,33 @@
         {% block title %} Titre par défault{% endblock %}
     </title>
     {% block stylesheet %}
-        <link rel="stylesheet" href="/yarn-assets\bootstrap\dist\css\bootstrap.min.css">
+        {{ encore_entry_link_tags('style') }}
     {% endblock %}
 </head>
-<body class="" container-fluid>
-{% if app.session.flashbag.peek('success') %}
-<div class="row justify-content-center">
-    <div class="col-md-6 mt-2">
+<body class="container-fluid" >
+{% include'_navbar.html.twig' %}
 
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
+{% if app.session.flashbag.peek('success') %}
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-5">
+
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
 {% endif %}
 
-<div class="row justify-content-center">
+<div class="row justify-content-center mt-5">
     <div class="col-md-8">
         {% block content %}{% endblock %}
     </div>
 </div>
 
 {% block js %}
-
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </body>
 </html>

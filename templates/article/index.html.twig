@@ -3,7 +3,7 @@
 {% block title %}Article index{% endblock %}
 
 {% block content %}
-    <h1 class="mt-2 text-center">Liste des article</h1>
+    <h1 class="mt-2 text-center">Liste des article {{ pageTitle }}</h1>
 
     <div class="text-right MB-2">
         <a href="{{ path('article-new') }}" class="btn btn-danger">
@@ -21,7 +21,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for article in articles %}
+        {% for article in articleList %}
             <tr>
                 <td>
                     <a href="{{ path('article-details', {'id': article.id}) }}">
@@ -40,5 +40,11 @@
         {% endfor %}
         </tbody>
     </table>
+
+{% endblock %}
+
+{% block aside %}
+
+{% include '_aside.html.twig' %}
 
 {% endblock %}

@@ -1,0 +1,18 @@
+<div class="col-md-3">
+    <h3>Liste des Auteurs</h3>
+    <ul class="list-group">
+        {% for author in authorList %}
+
+        <li class="list-group-item">
+        <a href="{{ path('article-by-author', {'id' : author.id}) }}">
+            {{ author.fullName }}
+        </a>
+
+            <span class="badge badge-danger badge-pill">
+                {{ author.articles | length }}
+            </span>
+        </li>
+        {% endfor %}
+
+    </ul>
+</div>

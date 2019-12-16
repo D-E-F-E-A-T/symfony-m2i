@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Author;
 use App\Entity\Comment;
 use App\Form\ArticleType;
 use App\Form\CommentType;
@@ -26,9 +27,36 @@ class ArticleController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository): Response
     {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
-        ]);
+        $params = $this->getTwigParameterWithAside(
+            ['articleList'=> $articleRepository->findAll(), 'pageTitle' => '']
+        );
+        return $this->render('article/index.html.twig', $params
+        );
+    }
+
+    /**
+     * @Route("/by-author/{id}", name="article-by-author")
+     */
+    public function showByAuthor(Author $author){
+        $articleList = $this->getDoctrine()->getRepository(Article::class)
+            ->getAllByAuthor($author);
+
+        $params = $this->getTwigParameterWithAside(
+            ['articleList' => $articleList, 'pageTitle' => "de l'auteur : " . $author->getFullName()]
+        );
+
+        return $this->render('article/index.html.twig', $params
+        );
+    }
+
+    private function getTwigParameterWithAside($data){
+        $asideData = [
+            'authorList' => $this->getDoctrine()
+                ->getRepository(Author::class)
+            ->findAll()
+        ];
+
+        return array_merge($data, $asideData);
     }
 
     /**

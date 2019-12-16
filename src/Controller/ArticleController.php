@@ -6,7 +6,8 @@ use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\ArticleType;
 use App\Form\CommentType;
-use App\Repository\ArtcileRepository;
+
+use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,13 +21,13 @@ class ArticleController extends AbstractController
 {
     /**
      * @Route("/", name="article_index", methods={"GET"})
-     * @param ArtcileRepository $artcileRepository
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
-    public function index(ArtcileRepository $artcileRepository): Response
+    public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $artcileRepository->findAll(),
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 
@@ -41,7 +42,17 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
 
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+            $em->flush();
+
+            $this->addFlash("sucess", "Votre article a été ajouté");
+
+            return $this->redirectToRoute('article_index');
+        }
 
         return $this->render('article/new.html.twig', [
             //'article' => $article,

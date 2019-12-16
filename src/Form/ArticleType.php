@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Author;
+use App\Form\DataTransformer\TagCollectionToStringDataTranformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,6 +16,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArticleType extends AbstractType
 {
+    /**
+     * @var TagCollectionToStringDataTranformer
+     */
+    private $tagTransformer;
+
+    /**
+     * ArticleType constructor.
+     * @param TagCollectionToStringDataTranformer $tagTransformer
+     */
+    public function __construct(TagCollectionToStringDataTranformer $tagTransformer)
+    {
+        $this->tagTransformer = $tagTransformer;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -36,6 +52,7 @@ class ArticleType extends AbstractType
             ->add('tags', TextType::class, ['label'=> 'Liste des tages'])
             ->add('submit', SubmitType::class,
                 ["label" => "Valider", "attr" => ["class" => "btn btn-danger" ]]);
+        $builder->get('tags')->addModelTransformer($this->tagTransformer);
     }
 
     public function configureOptions(OptionsResolver $resolver)

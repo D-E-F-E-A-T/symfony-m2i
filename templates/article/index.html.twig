@@ -5,20 +5,26 @@
 {% block content %}
     <h1 class="mt-2 text-center">Liste des article</h1>
 
+    <div class="text-right MB-2">
+        <a href="{{ path('article-new') }}" class="btn btn-danger">
+            Nouvel Article
+        </a>
+    </div>
+
     <table class="table table-striped text-center">
         <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Author</th>
-                <th>Commentaires</th>
+        <tr>
+            <th>Titre</th>
+            <th>Author</th>
+            <th>Commentaires</th>
 
-            </tr>
+        </tr>
         </thead>
         <tbody>
         {% for article in articles %}
             <tr>
                 <td>
-                    <a href="{{ path('article-details', {'id': article.id})}}">
+                    <a href="{{ path('article-details', {'id': article.id}) }}">
                         {{ article.title }}
                     </a>
 

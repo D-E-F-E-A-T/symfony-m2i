@@ -12,10 +12,10 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Article[]    findAll()
  * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ArtcileRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(ManagerRegistry $registry){
+
         parent::__construct($registry, Article::class);
     }
 

@@ -9,6 +9,11 @@
                 le : {{ article.createdAt | date('d/m/Y') }}
                 par {{ article.author.fullName }}
             </p>
+            <ul class="list-group list-group-horizontal">
+                {% for tag in article.tags %}
+                <li class="list-group-item">{{ tag.tagName }}</li>
+                 {% endfor %}
+            </ul>
             <p>
                 {{ article.text }}
             </p>

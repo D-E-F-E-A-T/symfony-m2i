@@ -4,3 +4,6 @@
 #home_index:
 # path: /home
 #  controller: App\Controller\HomeController::index
+
+author-login-check:
+  path: /author-login-check

@@ -1,0 +1,46 @@
+<div>
+    Il y a {{ articleList.getTotalItemCount() }} résultats
+</div>
+
+<table class="table table-striped text-center">
+    <thead>
+    <tr>
+        <th>
+            {{ knp_pagination_sortable(articleList, 'Titre', 'a.title') }}
+            </th>
+        <th>Author</th>
+        <th>Commentaires</th>
+        <th>Actions</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for article in articleList %}
+        <tr>
+            <td>
+                <a href="{{ path('article-details', {'id': article.id}) }}">
+                    {{ article.title }}
+                </a>
+
+
+            <td>{{ article.author.fullName }}</td>
+            <td>{{ article.comments | length }}</td>
+            <td>{% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('article-delete', {'id': article.id}) }}">Supprimer</a>
+            {% endif %}
+            </td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+
+    {{ knp_pagination_render(articleList) }}
+
+</div>

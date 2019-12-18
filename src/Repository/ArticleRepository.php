@@ -28,8 +28,14 @@ class ArticleRepository extends ServiceEntityRepository
             ->join('a.author', 'auth')
             ->where('auth.id = :id')
             ->setParameter('id', $author->getId())
-        ->orderBy('a.createdAt',  'DESC');
-        return $qb->getQuery()->getResult();
+        ;
+        return $qb->getQuery();
+    }
+
+    public function  getAllArticles(){
+        $qb = $this->createQueryBuilder('a')
+            ->select('a');
+        return $qb->getQuery();
     }
 
     // /**

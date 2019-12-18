@@ -9,6 +9,7 @@ use App\Form\ArticleType;
 use App\Form\CommentType;
 
 use App\Repository\ArticleRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -24,24 +25,40 @@ class ArticleController extends AbstractController
 {
     /**
      * @Route("/", name="article_index", methods={"GET"})
-     * @param ArticleRepository $articleRepository
+     * @param ArticleRepository $repository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
      * @return Response
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
+        $articleList = $paginator->paginate(
+            $repository->getAllArticles(),
+            $request->query->getInt('page', 1),
+            10
+        );
+        dump($articleList);
         $params = $this->getTwigParameterWithAside(
-            ['articleList'=> $articleRepository->findAll(), 'pageTitle' => '']
+            ['articleList'=> $articleList, 'pageTitle' => '']
         );
-        return $this->render('article/index.html.twig', $params
-        );
+        return $this->render('article/index.html.twig', $params);
     }
 
     /**
      * @Route("/by-author/{id}", name="article-by-author")
+     * @param Author $author
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param ArticleRepository $repository
+     * @return Response
      */
-    public function showByAuthor(Author $author){
-        $articleList = $this->getDoctrine()->getRepository(Article::class)
-            ->getAllByAuthor($author);
+    public function showByAuthor(Author $author, Request $request, PaginatorInterface $paginator, ArticleRepository $repository){
+
+        $articleList = $paginator->paginate(
+            $repository->getAllByAuthor($author),
+            $request->query->getInt('page', 1),
+            10
+        );
 
         $params = $this->getTwigParameterWithAside(
             ['articleList' => $articleList, 'pageTitle' => "de l'auteur : " . $author->getFullName()]
@@ -151,6 +168,9 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Article $article
+     * @return Response
      */
     public function delete(Request $request, Article $article): Response
     {

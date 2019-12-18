@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route("/article")
+ * @Route("/{_locale}/article", locale="en\fr", defaults={"_locale"="fr"})
  */
 class ArticleController extends AbstractController
 {

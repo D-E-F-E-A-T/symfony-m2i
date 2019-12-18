@@ -4,12 +4,13 @@
 
 {% block content %}
     <h1 class="mt-2 text-center">Liste des article {{ pageTitle }}</h1>
-
-    <div class="text-right MB-2">
-        <a href="{{ path('article-new') }}" class="btn btn-danger">
-            Nouvel Article
-        </a>
-    </div>
+    {% if is_granted('ROLE_AUTHOR') %}
+        <div class="text-right MB-2">
+            <a href="{{ path('article-new') }}" class="btn btn-danger">
+                Nouvel Article
+            </a>
+        </div>
+    {% endif %}
 
     <table class="table table-striped text-center">
         <thead>
@@ -45,6 +46,6 @@
 
 {% block aside %}
 
-{% include '_aside.html.twig' %}
+    {% include '_aside.html.twig' %}
 
 {% endblock %}

@@ -135,7 +135,7 @@ class Author implements UserInterface
      */
     public function getRoles()
     {
-        return ['ROLE_AUTHOR'];
+        return ['ROLE_AUTHOR', 'ROLE_ALLOWED_TO_SWITCH'];
     }
 
     /**

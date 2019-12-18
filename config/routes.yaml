@@ -7,3 +7,9 @@
 
 author-login-check:
   path: /author-login-check
+
+admin-login-check:
+  path: /admin-login-check
+
+logout:
+  path: /logout

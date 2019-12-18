@@ -9,11 +9,13 @@ use App\Form\ArticleType;
 use App\Form\CommentType;
 
 use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/article")
@@ -61,6 +63,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/new", name="article-new")
+     * @IsGranted("ROLE_AUTHOR")
      * @param Request $request
      * @param null $id
      * @return Response
@@ -68,6 +71,10 @@ class ArticleController extends AbstractController
     public function addOrEdit(Request $request, $id=null)
     {
         $article = new Article();
+        $article->setAuthor($this->getUser());
+        //Equivalent de @IsGranted dans les annotations
+        //$this->denyAccessUnlessGranted('ROLE_AUTHOR');
+
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);

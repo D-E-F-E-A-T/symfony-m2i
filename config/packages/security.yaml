@@ -1,7 +1,11 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-       # in_memory: { memory: null }
+        admin_provider :
+                 memory:
+                     users:
+                         admin: {password: '$2y$13$fGPxLCgOW6IrqK4.YUdlsO.4DXpHijoUZQGHM2Celt8xsXP0Y5oDe', roles : ['ROLE_ADMIN']}
+                         GOD: {password: '$2y$13$rsj8cOPyocqiR9wSA6gurOPYX2gMePVJ5DXtLHwyTfYKfAYPHsmly', roles : ['ROLE_GOD']}
         author_provider:
             entity:
                 class: 'App\Entity\Author'
@@ -9,6 +13,10 @@ security:
     encoders:
         App\Entity\Author:
             algorithm: bcrypt
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+    role_hierarchy:
+        ROLE_GOD: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,14 +24,27 @@ security:
         login:
             pattern: ^/login
             anonymous: true
+        admin:
+            pattern: ^/admin
+            anonymous: false
+            provider: admin_provider
+            switch_user: true
+            form_login:
+                login_path: admin-login
+                check_path: admin-login-check
+                default_target_path: admin_index
         main:
             pattern: ^/
             anonymous: lazy
             provider: author_provider
+            switch_user: true
             form_login:
                 login_path: security-login
                 check_path: author-login-check
                 default_target_path: article_index
+            logout:
+                path: logout
+                target: homepage
 
 
             # activate different ways to authenticate
@@ -35,5 +56,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - {path: '^/admin/heaven', roles: 'ROLE_GOD'}
+        - {path: '^/admin', roles: 'ROLE_ADMIN'}
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

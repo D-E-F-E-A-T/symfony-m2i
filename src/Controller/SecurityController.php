@@ -4,7 +4,6 @@
 namespace App\Controller;
 
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +19,32 @@ class SecurityController extends AbstractController
      * @return Response
      */
 
-    public function authorLogin(Request $request, AuthenticationUtils $helper){
+    public function authorLogin(Request $request, AuthenticationUtils $helper)
+    {
         dump($helper->getLastAuthenticationError());
 
-        return $this->render('security/author-login.html.twig', [
+        return $this->render('security/login.html.twig', [
             'lastUserName' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError()
+            'error' => $helper->getLastAuthenticationError(),
+            'formTitle' => 'Identification des auteurs',
+            'formAction' => $this->generateUrl('author-login-check')
+        ]);
+
+    }
+
+    /**
+     * @Route("/login-admin", name="admin-login")
+     * @param AuthenticationUtils $helper
+     * @return Response
+     */
+
+    public function adminLogin(AuthenticationUtils $helper)
+    {
+        return $this->render('security/login.html.twig', [
+            'lastUserName' => $helper->getLastUsername(),
+            'error' => $helper->getLastAuthenticationError(),
+            'formTitle' => 'Identification des administateurs',
+            'formAction' => $this->generateUrl('admin-login-check')
         ]);
 
     }

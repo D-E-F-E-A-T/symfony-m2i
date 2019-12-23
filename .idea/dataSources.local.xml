@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
-    <data-source name="symfony@localhost" uuid="7ca8dcee-6b46-42a9-9269-5d2645b45ee4">
+    <data-source name="symfony@localhost" uuid="2dcfab9b-77b2-4d4f-a227-3f713ebc66fa">
       <database-info product="MariaDB" version="10.1.38-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.4.1" dbms="MARIADB" exact-version="10.1.38" exact-driver-version="2.4">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>

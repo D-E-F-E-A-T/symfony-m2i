@@ -16,26 +16,28 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $book = $this->createBook("La République", "Platon", 10, "PUF");
+        $book = $this->createBook("La République", "1", 10, "PUF");
         $manager->persist($book);
 
-        $book = $this->createBook("Le Panquet", "Platon", 13, "Hachette");
+        $book = $this->createBook("Le Panquet", "2", 13, "Hachette");
         $manager->persist($book);
 
-        $book = $this->createBook("Three men in a boat", "Jerome K Jerome", 12, "PUF");
+        $book = $this->createBook("Three men in a boat", "3", 12, "PUF");
         $manager->persist($book);
 
-        $book = $this->createBook("Vernon Subutex", "V. Despentes", 15, "Seuil");
+        $book = $this->createBook("Vernon Subutex", "1", 15, "Seuil");
         $manager->persist($book);
 
-        $book = $this->createBook("Dune", "Frnak Herbert", 8, "Grasset");
+        $book = $this->createBook("Dune", "2", 8, "Grasset");
         $manager->persist($book);
 
         $manager->flush();
     }
     private  function createBook($title, $author, $price, $publisher){
         $book = new Book();
-        $book->setTitle($title)->setAuthor($author)->setPrice($price)
+        $book->setTitle($title)
+            ->addAuthor($this->getReference("author_$author"))
+            ->setPrice($price)
         ->setPublisher($this->getReference("publisher_$publisher"));
         return $book;
 
@@ -50,7 +52,8 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-           PublisherFixtures::class
+           PublisherFixtures::class,
+            AuthorFixtures::class
         ];
     }
 }

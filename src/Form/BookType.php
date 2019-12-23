@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\Publisher;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,7 +20,12 @@ class BookType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ["label" => "Titre", "required" => true, "help" => "Le Titre du Livre "])
-            ->add('author', TextType::class, ["label" => "Autheur"])
+            ->add('authors', CollectionType::class, [
+                "label" => "Liste des auteurs",
+                "entry_type" => AuthorType::class,
+                "allow_add" => true
+
+                ])
             ->add('price', NumberType::class,
                 ["label" => "Prix", "html5" => true, "attr" => ["min" => "1", "max" => "999.99", "step" => ".5"]])
             ->add('publisher', EntityType::class, [

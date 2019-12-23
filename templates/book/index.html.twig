@@ -34,7 +34,11 @@
                 {{ book.title }}
             </td>
             <td>
-                {{ book.author }}
+                {%  if book.authors is defined %}
+                    {% for author in book.authors %}
+                        {{ author.fullName }}
+                    {% endfor %}
+                {% endif %}
             </td>
             <td>
                 {{ book.publisher.name }}

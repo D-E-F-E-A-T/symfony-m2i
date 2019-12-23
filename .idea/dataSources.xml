@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="symfony@localhost" uuid="7ca8dcee-6b46-42a9-9269-5d2645b45ee4">
+    <data-source source="LOCAL" name="symfony@localhost" uuid="2dcfab9b-77b2-4d4f-a227-3f713ebc66fa">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>

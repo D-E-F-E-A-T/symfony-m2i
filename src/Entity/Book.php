@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,9 +24,9 @@ class Book
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\ManyToMany(targetEntity="Author", cascade={"persist"})
      */
-    private $author;
+    private $authors;
 
     /**
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
@@ -36,6 +38,12 @@ class Book
      * @var Publisher
      */
     private  $publisher;
+
+    public function __construct()
+    {
+        $this->author = new ArrayCollection();
+        $this->authors = new ArrayCollection();
+    }
 
 
 
@@ -56,17 +64,6 @@ class Book
         return $this;
     }
 
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(string $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
 
     public function getPrice(): ?string
     {
@@ -97,5 +94,32 @@ class Book
         $this->publisher = $publisher;
         return $this;
     }
+
+    /**
+     * @return Collection|Author[]
+     */
+    public function getAuthors(): Collection
+    {
+        return $this->authors;
+    }
+
+    public function addAuthor(Author $author): self
+    {
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Author $author): self
+    {
+        if ($this->authors->contains($author)) {
+            $this->authors->removeElement($author);
+        }
+
+        return $this;
+    }
+
 
 }

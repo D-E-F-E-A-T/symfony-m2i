@@ -1,7 +1,68 @@
 {% extends 'layout.html.twig' %}
+{% block css %}
+    {{ parent() }}
+    <style>
+        #template {
+            display: none;
+        }
+    </style>
+{% endblock %}
 
 {% block title %}New Book!{% endblock %}
 {# Un commentaire #}
 {% block content %}
-    {{ form(bookForm) }}
+    <h1 class="text-danger text-center"> Ajout d'un nouveau Livre</h1>
+    <div id="template" style="display: none">
+        {{ form_widget(bookForm.authors.vars.prototype | e) }}
+    </div>
+    {{ form_start(bookForm) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(bookForm.title) }}
+        </div>
+        <div class="col">
+            {{ form_row(bookForm.price) }}
+        </div>
+        <div class="col">
+            {{ form_row(bookForm.publisher) }}
+        </div>
+    </div>
+    <fieldset>
+        <legend>
+            Liste des auteurs
+        </legend>
+        <button type="button" class="add-author btn btn-danger "> Ajouter un auteur</button>
+        <ul id="author-list">
+        </ul>
+    </fieldset>
+
+
+    {{ form_end(bookForm) }}
+
+{% endblock %}
+
+{% block js %}
+
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+            //Cibles
+            $container = $("#author-list");
+            $addButton = $(".add-author");
+            $template = $("#template");
+
+            var authorFormIndex = $container.find("div[class^='book_authors']").length;
+
+            $addButton.click(function () {
+                template = $template.clone().removeAttr("id").show().html();
+
+                template = template.replace(/__name__/g, authorFormIndex);
+                authorFormIndex++;
+                $container.append(template);
+            });
+
+        });
+
+    </script>
 {% endblock %}

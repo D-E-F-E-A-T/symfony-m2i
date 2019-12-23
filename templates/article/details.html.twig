@@ -5,6 +5,9 @@
         <article>
 
             <h1>{{ article.title }}</h1>
+        {% if article.photo is defined  %}
+            <img src="{{ asset('uploads/photos/' ~  article.photo) }}" class="img-fluid">
+        {% endif %}
             <p>
                 le : {{ article.createdAt | date('d/m/Y') }}
                 par {{ article.author.fullName }}

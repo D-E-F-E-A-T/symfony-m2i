@@ -8,3 +8,18 @@
     {{ form(articleForm) }}
 
 {% endblock %}
+
+{% block js %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function () {
+                console.log("Hello");
+            $('.custom-file input').on('change', function (event) {
+                console.log($(this));
+                let fileName = $(this)[0].files[0].name;
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+{% endblock %}

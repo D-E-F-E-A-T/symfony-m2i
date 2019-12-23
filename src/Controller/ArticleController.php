@@ -100,7 +100,7 @@ class ArticleController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             //Gestion de l'upload des photos
             /** @var UploadedFile $uploadedFile */
-            $uploadedFile = $form['photo']->getData();
+            $uploadedFile = $form['photoInput']->getData();
 
             if ($uploadedFile){
                 //Definition de nouveau nom de fichier

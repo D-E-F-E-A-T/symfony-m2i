@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File as AssertFile;
 
 class ArticleType extends AbstractType
 {
@@ -51,10 +52,20 @@ class ArticleType extends AbstractType
                  'expanded' => true
              ])*/
             ->add('tags', TextType::class, ['label' => 'Liste des tages'])
-            ->add('photo', FileType::class, [
+            ->add('photoInput', FileType::class, [
                 'label' => 'Télécharger le photo',
                 'required' => false,
-                'mapped' => false
+                'mapped' => false,
+                'constraints' => [
+                    new AssertFile([
+                        'maxSize'=>'1024k',
+                        'mimeTypes' => [
+                            'image/png', 'image/jpeg', 'image/gif'
+                        ],
+                        'maxSizeMessage' => 'Vous devez choisir de 5 Mo maximum',
+                        'mimeTypesMessage' => 'Seuls les fichiers image web sont autorisés'
+                    ])
+                ]
             ])
             ->add('submit', SubmitType::class,
                 ["label" => "Valider", "attr" => ["class" => "btn btn-danger"]]);

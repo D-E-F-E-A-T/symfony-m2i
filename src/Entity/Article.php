@@ -39,20 +39,24 @@ class Article
      * @ORM\OrderBy({"createdAt" = "DESC"})
      * @var ArrayCollection
      */
-
     private $comments;
 
     /**
      * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"})
      * @var ArrayCollection | Tag[]
      */
-
     private $tags;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $text;
+
+    /**
+     * @ORM\Column(type="string", length=128, nullable=true)
+     * @var string
+     */
+    private  $photo;
 
     public function __construct()
     {
@@ -166,6 +170,18 @@ class Article
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

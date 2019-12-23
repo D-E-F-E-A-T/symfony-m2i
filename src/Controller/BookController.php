@@ -6,7 +6,9 @@ use App\Entity\Book;
 use App\Entity\Publisher;
 use App\Form\BookType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BookController extends AbstractController
@@ -29,7 +31,7 @@ class BookController extends AbstractController
      * @Route("/book/new", name="book_create")
      * @Route("/book/edit/{id}", name="book-edit")
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function createOrEditBook(Request $request, $id=null)
     {
@@ -62,7 +64,7 @@ class BookController extends AbstractController
     /**
      * @Route("/book/delete/{id}", name="book-delete")
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteBook($id)
     {

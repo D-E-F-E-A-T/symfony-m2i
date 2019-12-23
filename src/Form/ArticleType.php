@@ -8,6 +8,7 @@ use App\Form\DataTransformer\TagCollectionToStringDataTranformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,18 +41,23 @@ class ArticleType extends AbstractType
                 'widget' => 'single_text'
             ])
             ->add('text', TextareaType::class,
-                ['label'=>'Texte',
-                    'attr'=>['rows'=>'15']
+                ['label' => 'Texte',
+                    'attr' => ['rows' => '15']
                 ])
-           /* ->add('author', EntityType::class, [
-                'class'=> Author::class,
-                'choice_label'=> 'fullName',
-                'multiple' => false,
-                'expanded' => true
-            ])*/
-            ->add('tags', TextType::class, ['label'=> 'Liste des tages'])
+            /* ->add('author', EntityType::class, [
+                 'class'=> Author::class,
+                 'choice_label'=> 'fullName',
+                 'multiple' => false,
+                 'expanded' => true
+             ])*/
+            ->add('tags', TextType::class, ['label' => 'Liste des tages'])
+            ->add('photo', FileType::class, [
+                'label' => 'Télécharger le photo',
+                'required' => false,
+                'mapped' => false
+            ])
             ->add('submit', SubmitType::class,
-                ["label" => "Valider", "attr" => ["class" => "btn btn-danger" ]]);
+                ["label" => "Valider", "attr" => ["class" => "btn btn-danger"]]);
         $builder->get('tags')->addModelTransformer($this->tagTransformer);
     }
 

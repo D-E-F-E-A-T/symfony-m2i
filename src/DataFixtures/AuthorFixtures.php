@@ -27,16 +27,16 @@ class AuthorFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $manager->persist(
-            $this->createAuthor("Ayatollah", "TaGueule", "tg@gmail.com", 1)
+            $this->createAuthor("Platon", "", "pl@gmail.com", 1)
         );
         $manager->persist(
-            $this->createAuthor("Ayatollah", "Radar", "rd@gmail.com", 2)
+            $this->createAuthor("Durkheim", "Emile", "dur@gmail.com", 2)
         );
         $manager->persist(
-            $this->createAuthor("Ayatollah", "MarechalMeziane", "mm@gmail.com", 3)
+            $this->createAuthor("Marx", "Karl", "ma@gmail.com", 3)
         );
         $manager->persist(
-            $this->createAuthor("Ayatollah", "Chaton", "ch@gmail.com", 4)
+            $this->createAuthor("Smith", "Adam", "sm@gmail.com", 4)
         );
         $manager->flush();
     }

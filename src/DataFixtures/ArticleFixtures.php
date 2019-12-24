@@ -27,20 +27,10 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($article);
         }
 
-        /*$manager->persist($this->createArticle("J'accusse", "2014-01-01 20:53:46", "Affaire Dreyfus"));
-        $manager->persist($this->createArticle("Individu", "2010-01-01 20:53:46", "Adam Smith"));
-        $manager->persist($this->createArticle("Holland Dégage", "2009-01-01 20:53:46", "Frondeurs"));
-        $manager->persist($this->createArticle("PHP", "1995-01-01 20:53:46", "BackEnd"));
-        $manager->persist($this->createArticle("JavaScript", "2000-01-01 20:53:46", "USA"));*/
 
         $manager->flush();
     }
-    /*private function createArticle($title, $createdAt, $text){
-        $article = new Article();
-        $date = new \DateTime($createdAt);
-        $article->setTitle($title)->setCreatedAt($date)->setText($text);
-        return $article;
-    }*/
+
 
     /**
      * This method must return an array of fixtures classes
